@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package example;
+
+import "google/protobuf/timestamp.proto";
+import "tagger/tagger.proto";
+
+option go_package = "github.com/bikube/trepis-api/user_service/models/pb;modelpb";
+
+enum MerchantStatus {
+  ACTIVE = 0;
+  INACTIVE = 1;
+  SUSPENDED = 2;
+  DELETED = 3;
+}
+
+message Merchant {
+  // UUID of the merchant
+  string id = 1;
+
+  // UUID of the parent merchant
+  string parent_id = 2 [(tagger.tags) = 'db:"parent_id"'];
+
+  string name = 3;
+
+  string email = 4;
+
+  string password = 5;
+
+  string phone_no = 6 [(tagger.tags) = 'db:"phone_no"'];
+
+  // Is the merchant the owner of business, if true then parent_id is null
+  // otherwise parent_id is the id of the owner merchant
+  bool is_owner = 7;
+
+  MerchantStatus status = 8;
+
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+  google.protobuf.Timestamp deleted_at = 11;
+}
